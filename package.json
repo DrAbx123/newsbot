@@ -1,5 +1,5 @@
 {
-    "name": "news-bot",
+    "name": "newsbot",
     "version": "1.0.0",
     "scripts": {
       "start": "node index.js"
