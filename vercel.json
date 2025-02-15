@@ -2,7 +2,8 @@
     "routes": [
       {
         "src": "/api/bot",
-        "dest": "/api/bot.py"
+        "dest": "/api/bot.py",
+        "methods": ["POST"]
       }
     ]
   }
