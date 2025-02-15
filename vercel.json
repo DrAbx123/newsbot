@@ -5,10 +5,5 @@
         "dest": "/api/bot.py",
         "methods": ["POST"]
       }
-    ],
-    "build": {
-      "env": {
-        "PYTHON_VERSION": "3.12"
-      }
-    }
+    ]
   }
