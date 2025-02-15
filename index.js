@@ -47,6 +47,7 @@ bot.on("message", async (ctx) => {
     // 发送完成后，再删除队首这条
     messageQueues[chatId].shift();
   }
+  ctx.reply(`This chat ID is: ${chatId}`);
 });
 
 // 将 Bot 的 webhookCallback 挂载到 /secret-path
