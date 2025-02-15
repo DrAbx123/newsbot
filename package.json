@@ -1,0 +1,10 @@
+{
+    "name": "news-bot",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "telegraf": "^4.12.3"
+    }
+  }
