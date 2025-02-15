@@ -1,6 +1,5 @@
-# requirements.txt
 python-telegram-bot==20.5
-typing-extensions==4.5.0  # 必须精确锁定此版本
-httpx==0.24.0
-httpcore==0.16.3
+typing-extensions==4.5.0
+httpx==0.23.3
+httpcore==0.15.0
 anyio==3.6.2
