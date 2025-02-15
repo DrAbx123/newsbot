@@ -1,3 +1,4 @@
 python-telegram-bot==20.5
-pydantic==1.10.13  # 避免使用 v2.x（已知与部分库冲突）
-typing-extensions==4.5.0
+typing-extensions>=4.5.0
+httpx==0.26.0
+anyio==4.3.0
