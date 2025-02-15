@@ -1,4 +1,4 @@
-require("dotenv").config(); // 从 .env 里加载环境变量
+
 const express = require("express");
 const { Telegraf } = require("telegraf");
 const { WebSocket } = require("ws");
