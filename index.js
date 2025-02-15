@@ -4,24 +4,25 @@ const express = require("express");
 const app = express();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-let lastMessageText = ""; // 存上一次消息的文本
+// 建立一个字典，用于记录每个群的上一次消息。 key = chatId, value = 上一次消息文本
+let lastMessageByGroup = {};
 
-// 当收到任何消息时（包括群聊消息），处理逻辑
-bot.on("message", (ctx) => {
-  const message = ctx.message;
+// 监听所有文本消息
+bot.on("text", (ctx) => {
+  const chatId = ctx.chat.id;                // 群聊或私聊的唯一ID
+  const currentText = ctx.message.text;      // 当前消息内容
 
-  // 如果是文本消息，就把它存起来，然后把上一次存的消息复读
-  if (message && message.text) {
-    // 如果我们已经有上一次消息，就立刻复读
-    if (lastMessageText) {
-      ctx.reply(lastMessageText);
-    }
-    // 更新记录：把当前这条消息内容留给下一次复读
-    lastMessageText = message.text;
+  // 如果之前群里有记录，就先复读它
+  if (lastMessageByGroup[chatId]) {
+    ctx.reply(lastMessageByGroup[chatId]);
   }
+
+  // 存储当前消息，留待下一次新的消息时再复读
+  lastMessageByGroup[chatId] = currentText;
 });
 
-// 将 Telegram 消息通过 /secret-path 路径转发给 bot
+// 处理 Telegram 发来的 webhook 请求
 app.use(bot.webhookCallback("/secret-path"));
 
+// 导出 app 给 Vercel
 module.exports = app;
