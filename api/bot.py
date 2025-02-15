@@ -11,7 +11,7 @@ import os
 import json
 
 TOKEN = os.environ.get("TG_TOKEN")
-WEBHOOK_URL = "https://YOUR_VERCEL_DOMAIN.vercel.app/api/bot"
+WEBHOOK_URL = "https://newsbot-abx123-s-projects.vercel.app/api/bot"
 
 # 初始化机器人
 application = Application.builder().token(TOKEN).build()
