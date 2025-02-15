@@ -11,7 +11,7 @@ import os
 import json
 
 TOKEN = os.environ.get("TG_TOKEN")  # 从环境变量读取 Token
-WEBHOOK_URL = "https://newsbot-abx123-s-projects.vercel.app/api/bot"  # 替换为你的域名
+WEBHOOK_URL = "https://newsbot-git-main-abx123-s-projects.vercel.app/api/bot"  # 替换为你的域名
 
 # 初始化机器人
 application = Application.builder().token(TOKEN).build()
