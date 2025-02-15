@@ -1,19 +1,14 @@
 {
-    "builds": [
-      {
-        "src": "api/bot.py",
-        "use": "@vercel/python@3.11.9",
-        "config": {
-          "maxLambdaSize": "15mb",
-          "includeFiles": "requirements.txt"
-        }
-      }
-    ],
     "routes": [
       {
         "src": "/api/bot",
-        "dest": "api/bot.py",
+        "dest": "/api/bot.py",
         "methods": ["POST"]
       }
-    ]
+    ],
+    "build": {
+      "env": {
+        "PYTHON_VERSION": "3.12"
+      }
+    }
   }
