@@ -6,6 +6,7 @@
     },
     "dependencies": {
       "telegraf": "^4.12.3",
-        "express": "^4.21.2"
+        "express": "^4.21.2",
+        "ws": "^8.13.0"
     }
   }
