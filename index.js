@@ -59,7 +59,7 @@ bot.on("text", async (ctx) => {
     messageQueues[chatId].shift(); // 发完后删除队首
     i++;
   }
-  ctx.reply(`This chat ID is: ${chatId}`);
+  //ctx.reply(`This chat ID is: ${chatId}`);
 });
 
 
