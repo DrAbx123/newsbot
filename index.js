@@ -51,12 +51,13 @@ bot.on("text", async (ctx) => {
   messageQueues[chatId].push(safeText);
   // 将当前消息存入队列
   //messageQueues[chatId].push(currentText);
-
+  i = 0;
   // 从头开始，每条都回复后再删除直到队列为空
-  while (messageQueues[chatId].length > 0) {
+  while (messageQueues[chatId].length > 0 && i<100) {
     const textToSend = messageQueues[chatId][0];
     await ctx.reply(textToSend);
     messageQueues[chatId].shift(); // 发完后删除队首
+    i++;
   }
   ctx.reply(`This chat ID is: ${chatId}`);
 });
