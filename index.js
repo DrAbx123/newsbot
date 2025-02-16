@@ -31,11 +31,54 @@ function sanitizeMessage(text) {
 }
 
 // 为每个群准备一个消息队列 { chatId1: [msg1, msg2], chatId2: [...] }
-const messageQueues = {};
+// const messageQueues = {};
 
-// 当 Bot 收到文本消息时
+// // 当 Bot 收到文本消息时
+// bot.on("text", async (ctx) => {
+//   const chatId = ctx.chat.id;
+
+//   // 若该群还没初始化队列，先创建空数组
+//   if (!messageQueues[chatId]) {
+//     messageQueues[chatId] = [];
+//   }
+
+//   // 获取当前消息文本
+//   const currentText = ctx.message?.text || "";
+//   // 经过 sanitize 处理
+//   const safeText = sanitizeMessage(currentText);
+
+//   // 把这条安全文本存到该群队列
+//   messageQueues[chatId].push(safeText);
+//   // 将当前消息存入队列
+//   //messageQueues[chatId].push(currentText);
+//   i = 0;
+//   // 从头开始，每条都回复后再删除直到队列为空
+//   while (messageQueues[chatId].length > 0 && i<100) {
+//     const textToSend = messageQueues[chatId][0];
+//     await ctx.reply(textToSend);
+//     messageQueues[chatId].shift(); // 发完后删除队首
+//     i++;
+//   }
+//   //ctx.reply(`This chat ID is: ${chatId}`);
+// });
+
+
+/**
+ * 全局对象：用于记录每个群的重复信息
+ * 格式示例：
+ * {
+ *   [chatId]: {
+ *     text: "最后一次记录的文本",
+ *     userIds: Set(存放不同用户的ID),
+ *     count: 计数器（表示有几个不同用户重复了同样的内容）
+ *   }
+ * }
+ */
+const repeatedMessages = {};
+
 bot.on("text", async (ctx) => {
   const chatId = ctx.chat.id;
+  const userId = ctx.from.id;
 
   // 若该群还没初始化队列，先创建空数组
   if (!messageQueues[chatId]) {
@@ -47,23 +90,57 @@ bot.on("text", async (ctx) => {
   // 经过 sanitize 处理
   const safeText = sanitizeMessage(currentText);
 
-  // 把这条安全文本存到该群队列
+  // 如果还没有为该群初始化 repeatedMessages，则初始化
+  if (!repeatedMessages[chatId]) {
+    repeatedMessages[chatId] = {
+      text: "",
+      userIds: new Set(),
+      count: 0
+    };
+  }
+
+  // 检查该消息是否与记录中的文本相同
+  if (safeText === repeatedMessages[chatId].text) {
+    // 若相同，则判断发送此消息的用户是否是新的（不同 userId）
+    if (!repeatedMessages[chatId].userIds.has(userId)) {
+      repeatedMessages[chatId].userIds.add(userId);
+      repeatedMessages[chatId].count++;
+
+      // 如果已经有三个不同用户重复了同样的文本
+      if (repeatedMessages[chatId].count === 3) {
+        const randomNum = Math.random();
+        if (randomNum < 0.8) {
+          // 80% 的概率复读
+          await ctx.reply(safeText);
+        } else {
+          // 20% 的概率打断
+          await ctx.reply("打断复读");
+        }
+        // 处理完后重置该群的重复信息
+        repeatedMessages[chatId].text = "";
+        repeatedMessages[chatId].userIds.clear();
+        repeatedMessages[chatId].count = 0;
+      }
+    }
+  } else {
+    // 如果文本不同，则重置该群的重复信息
+    repeatedMessages[chatId].text = safeText;
+    repeatedMessages[chatId].userIds = new Set([ userId ]);
+    repeatedMessages[chatId].count = 1;
+  }
+
+  // 将新消息放入队列，以保持原有的队列结构
   messageQueues[chatId].push(safeText);
-  // 将当前消息存入队列
-  //messageQueues[chatId].push(currentText);
-  i = 0;
-  // 从头开始，每条都回复后再删除直到队列为空
-  while (messageQueues[chatId].length > 0 && i<100) {
+
+  // 从队列头开始，每条都回复后再删除，避免队列无限增长
+  let i = 0;
+  while (messageQueues[chatId].length > 0 && i < 100) {
     const textToSend = messageQueues[chatId][0];
     await ctx.reply(textToSend);
     messageQueues[chatId].shift(); // 发完后删除队首
     i++;
   }
-  //ctx.reply(`This chat ID is: ${chatId}`);
 });
-
-
-
 
 
 
