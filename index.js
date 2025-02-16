@@ -4,7 +4,7 @@ const { Telegraf } = require("telegraf");
 const { WebSocket } = require("ws");
 
 // =============== 1) 基础设置 ===============
-async function createApp() {
+
 const app = express();
 
 // 你的 Bot Token，放在环境变量 BOT_TOKEN 中
@@ -164,8 +164,7 @@ ws.on("close", () => {
 // =============== 4) 设置 Webhook 回调 ===============
 app.use(bot.webhookCallback("/secret-path"));
 
-return app;
-}
-module.exports = { createApp };
+
+module.exports =  app ;
 // 导出 app 供 Vercel 或其他平台使用
 //module.exports = app;
