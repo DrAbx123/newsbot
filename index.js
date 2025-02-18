@@ -107,7 +107,7 @@ bot.on("text", async (ctx) => {
       repeatedMessages[chatId].count++;
 
       // 如果已经有三个不同用户重复了同样的文本
-      if (repeatedMessages[chatId].count === 2) {
+      if (repeatedMessages[chatId].count === 3) {
         const randomNum = Math.random();
         if (randomNum < 0.8) {
           // 80% 的概率复读
