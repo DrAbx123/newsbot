@@ -130,16 +130,16 @@ bot.on("text", async (ctx) => {
   }
 
   // 将新消息放入队列，以保持原有的队列结构
-  messageQueues[chatId].push(safeText);
+  // messageQueues[chatId].push(safeText);
 
-  // 从队列头开始，每条都回复后再删除，避免队列无限增长
-  let i = 0;
-  while (messageQueues[chatId].length > 0 && i < 100) {
-    const textToSend = messageQueues[chatId][0];
-    await ctx.reply(textToSend);
-    messageQueues[chatId].shift(); // 发完后删除队首
-    i++;
-  }
+  // // 从队列头开始，每条都回复后再删除，避免队列无限增长
+  // let i = 0;
+  // while (messageQueues[chatId].length > 0 && i < 100) {
+  //   const textToSend = messageQueues[chatId][0];
+  //   await ctx.reply(textToSend);
+  //   messageQueues[chatId].shift(); // 发完后删除队首
+  //   i++;
+  // }
 });
 
 
