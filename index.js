@@ -31,7 +31,7 @@ function sanitizeMessage(text) {
 }
 
 // 为每个群准备一个消息队列 { chatId1: [msg1, msg2], chatId2: [...] }
-// const messageQueues = {};
+const messageQueues = {};
 
 // // 当 Bot 收到文本消息时
 // bot.on("text", async (ctx) => {
